@@ -10,9 +10,9 @@
         android:hardwareAccelerated="false"
         android:largeHeap="true"
         android:allowBackup="true"
-        android:icon="@mipmap/books_icon"
+        android:icon="@mipmap/bookshelf_128"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/books_icon"
+        android:roundIcon="@mipmap/bookshelf_128"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
