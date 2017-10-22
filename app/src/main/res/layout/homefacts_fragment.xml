@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            app:srcCompat="@drawable/ic_grade_white_48dp" />
+            app:srcCompat="@drawable/ic_star_border_white_48dp" />
 
     </LinearLayout>
 
@@ -137,8 +137,8 @@
         android:inputType="textPersonName"
         android:shadowColor="@color/colorAccent"
         android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textColorHighlight="@android:color/white"
+        android:textColor="@color/colorAccent"
+        android:textColorHighlight="@android:color/transparent"
 
         android:textColorHint="@android:color/white"
         android:textColorLink="@android:color/white"

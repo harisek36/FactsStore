@@ -305,7 +305,7 @@ public class home extends Fragment {
 
         }
         else {
-            like_unlike_button.setImageResource(R.drawable.ic_grade_black_48dp);
+            like_unlike_button.setImageResource(R.drawable.ic_star_border_white_48dp);
             like_unlike_button.setTag("unLiked");
 
         }
