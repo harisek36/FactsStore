@@ -1,5 +1,7 @@
 package com.app360.harishsekar.facts360;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -22,29 +25,31 @@ public class about extends Fragment {
 
 
 
-    private ImageButton Button1;
-    MainActivity mainActivity;
-    ToggleButton toggle;
+
+    TextView rate_us;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.aboutus_fragment,container,false);
 
+        final String appPackageName = getContext().getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
 
-         toggle = (ToggleButton) view.findViewById(R.id.notification_toggleButton_ID);
-        toggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        rate_us = view.findViewById(R.id.rateus_ID);
+        rate_us.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-//                    mainActivity.setTimerforNotification(21, 35);
+            public void onClick(View v) {
 
-                }
-//
-//                        // The toggle is disabled
-//                    }
             }
         });
+
         return view;
     }
 

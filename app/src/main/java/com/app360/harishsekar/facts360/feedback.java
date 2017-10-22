@@ -38,7 +38,7 @@ public class feedback extends Fragment {
                 String toMessage = email_message.getText().toString();
 
                 Intent email =  new Intent(Intent.ACTION_SEND);
-                email.putExtra(Intent.EXTRA_EMAIL,new String[] { "the360@gmail.com" });
+                email.putExtra(Intent.EXTRA_EMAIL,new String[] { "app360team@gmail.com" });
                 email.putExtra(Intent.EXTRA_SUBJECT,toSubject);
                 email.putExtra(Intent.EXTRA_TEXT,toMessage);
 

@@ -130,7 +130,7 @@ public class home extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 factsStore.setFileName(spinner_Facts_Category.getSelectedItem().toString());
-                Toast.makeText(getActivity().getApplicationContext(),spinner_Facts_Category.getSelectedItem().toString()+position+id,Toast.LENGTH_SHORT).show();
+
                 ActualFactDisplay.setText(factsStore.getFatcs());
 
             }
@@ -138,7 +138,7 @@ public class home extends Fragment {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getActivity().getApplicationContext(),"Nothing seleccted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(),"Nothing selected",Toast.LENGTH_SHORT).show();
 
 
             }
@@ -246,7 +246,7 @@ public class home extends Fragment {
                     textTOspeech_result = textToSpeech_object.setLanguage(Locale.getDefault());
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"Feature not avaliable in your Device :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"Feature not available in your Device :(",Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -263,7 +263,6 @@ public class home extends Fragment {
                 if(textTOspeech_result == TextToSpeech.LANG_NOT_SUPPORTED || textTOspeech_result == TextToSpeech.LANG_MISSING_DATA){
 
                     Toast.makeText(getActivity().getApplicationContext(),"Feature not avaliable in your Device :(",Toast.LENGTH_SHORT).show();
-                    Snackbar.make(view, "Added to Favourites List !!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
                 }
                 else{
@@ -276,15 +275,12 @@ public class home extends Fragment {
         like_unlike_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Added to Favourites List !!", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
 
-//                AddingFacts_to_localFavDB();
                 if(like_unlike_button.getTag()=="unLiked"){
                     AddingFacts_to_localFavDB();
                 }else if(like_unlike_button.getTag()=="Liked"){
                     if(localFavouriteDatabaseHelper.delete_from_Table(ActualFactDisplay.getText().toString())){
-                        Toast.makeText(getActivity().getApplicationContext(),"Removed from fAv List",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity().getApplicationContext(),"Fact Removed !!",Toast.LENGTH_SHORT).show();
                         set_like_fact_star(ActualFactDisplay.getText().toString());
                     }
                 }
@@ -294,26 +290,6 @@ public class home extends Fragment {
             }
         });
 
-
-//        searchFact_text.setTag("INVISIBLE");
-//        searchFact_text.setVisibility(View.INVISIBLE);
-//        search_home_fact_Button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(searchFact_text.getTag() == "INVISIBLE") {
-//                    searchFact_text.setVisibility(View.VISIBLE);
-//                    searchFact_text.setTag("VISIBLE");
-////                    search_home_fact_Button.setImageResource(R.drawable.search_yellow);
-//
-//                }else if(searchFact_text.getTag() == "VISIBLE")
-//                {
-//                    searchFact_text.setVisibility(View.INVISIBLE);
-//                    searchFact_text.setTag("INVISIBLE");
-////                    search_home_fact_Button.setImageResource(R.drawable.search_white);
-//
-//                }
-//            }
-//        });
 
 
 

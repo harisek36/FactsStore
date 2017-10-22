@@ -103,7 +103,7 @@ public class liked extends Fragment {
                     textTOspeech_result = textToSpeech_object.setLanguage(Locale.getDefault());
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"Feature not avaliable in your Device :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"Feature not available in your Device :(",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -118,7 +118,7 @@ public class liked extends Fragment {
                 }
                 if(textTOspeech_result == TextToSpeech.LANG_NOT_SUPPORTED || textTOspeech_result == TextToSpeech.LANG_MISSING_DATA){
 
-                    Toast.makeText(getActivity().getApplicationContext(),"Feature not avaliable in your Device :(",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"Feature not available in your Device :(",Toast.LENGTH_SHORT).show();
 
                 }
                 else{
@@ -141,7 +141,7 @@ public class liked extends Fragment {
             }
         }
         else{
-            fav_fact_display.setText("No favourites yet !!");
+            fav_fact_display.setText("No favourite Facts yet !!");
         }
 
         //----------------------------------------------------------------------------------
@@ -157,7 +157,7 @@ public class liked extends Fragment {
 
                 } else {
 
-                    fav_fact_display.setText("No favourites yet !!");
+                    fav_fact_display.setText("No favourite Facts yet !!");
                 }
             }
         });
@@ -174,7 +174,7 @@ public class liked extends Fragment {
                     fav_fact_display.setText(favourite_facts_list.get(index));
 
                 } else {
-                    fav_fact_display.setText("No favourites yet !!");
+                    fav_fact_display.setText("No favourite Facts yet !!");
 
                 }
             }
@@ -187,8 +187,8 @@ public class liked extends Fragment {
             public void onClick(View view) {
 
                 String GET_FAV_FACT_TO_DELETE = fav_fact_display.getText().toString();
-                if(GET_FAV_FACT_TO_DELETE == "No favourites yet !!" && localFavouriteDatabaseHelper_1.databasehasFacts()) {
-                    Toast.makeText(getActivity().getApplicationContext(),"NO Fav yet !!",Toast.LENGTH_LONG).show();
+                if(GET_FAV_FACT_TO_DELETE == "No favourite Facts yet !!" && localFavouriteDatabaseHelper_1.databasehasFacts()) {
+                    Toast.makeText(getActivity().getApplicationContext(),"No favourite Facts yet !!",Toast.LENGTH_LONG).show();
                 }
                 else{
                     if(localFavouriteDatabaseHelper_1.delete_from_Table(GET_FAV_FACT_TO_DELETE)){
@@ -201,7 +201,7 @@ public class liked extends Fragment {
                             fav_fact_display.setText(favourite_facts_list.get(index));
                         }
                         else{
-                            fav_fact_display.setText("No favourites yet !!");
+                            fav_fact_display.setText("No favourite Facts yet !!");
                         }
                     }
                 }
@@ -238,7 +238,7 @@ public class liked extends Fragment {
                 }
             }
             else{
-                fav_fact_display.setText("No favourites yet !!");
+                fav_fact_display.setText("No favourite Facts yet !!");
 
             }
         }

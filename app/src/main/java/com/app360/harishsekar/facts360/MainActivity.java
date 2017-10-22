@@ -60,26 +60,21 @@ public class MainActivity extends AppCompatActivity {
         alarm_intent = new Intent(getApplicationContext(),AlarmReceiver.class);
         calendar = Calendar.getInstance();
 
-        calendar.set(Calendar.HOUR_OF_DAY,21);
-        calendar.set(Calendar.MINUTE,55);
+        calendar.set(Calendar.HOUR_OF_DAY,18);
+        calendar.set(Calendar.MINUTE,00);
         calendar.set(Calendar.SECOND,00);
         PendingIntent broadcast = PendingIntent.getBroadcast(getApplicationContext(),100,alarm_intent,PendingIntent.FLAG_UPDATE_CURRENT);;
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,broadcast);
 
-        setTimerforNotification(21,37);
 
 
 
 
-
-    }
-
-    public void setTimerforNotification(int hours,int minutes){
-
-        Toast.makeText(getApplicationContext(),"Set Alarm",Toast.LENGTH_SHORT).show();
 
 
     }
+
+
 
 
 
