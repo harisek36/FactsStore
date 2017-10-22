@@ -1,0 +1,21 @@
+<resources>
+        <string name="app_name">Facts:360</string>
+        <string name="action_settings">Settings</string>
+        <string name="section_format">Hello World from section: %1$d</string>
+
+
+
+
+
+        <string-array name="Facts_categories">
+                <item>ALL</item>
+                <item>INTERESTING</item>
+                <item>NATURE</item>
+                <item>SCIENCE</item>
+                <item>STATISTICS</item>
+                <item>WORLDRECORDS</item>
+                <item>FAMOUSQUOTES</item>
+
+        </string-array>
+
+</resources>
