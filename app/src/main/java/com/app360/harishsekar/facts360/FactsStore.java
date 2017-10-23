@@ -21,7 +21,7 @@ public class FactsStore extends ContextWrapper {
     BufferedReader reader;
     private static ArrayList<String> TrueFacts  = new ArrayList<String>();
 
-
+    home home_obj;
     private static int current_random_index;
     public InputStream file;
 

@@ -32,6 +32,9 @@ import java.util.Locale;
 
 public class home extends Fragment {
 
+    boolean previousPosition = true;
+    static int SpinnerPreviousPosition = 0;
+
     private static int current_back_button_index_position ;
     private ArrayList<Integer> back_button_buffer = new ArrayList<>();
 
@@ -63,7 +66,7 @@ public class home extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homefacts_fragment,container,false);
 
-        MobileAds.initialize(getContext(),ADMOB_HOME_APP_ID);
+        MobileAds.initialize(getActivity().getApplicationContext(),ADMOB_HOME_APP_ID);
         adView = (AdView) view.findViewById(R.id.home_AD);
         adRequest = new AdRequest.Builder().build();
 
@@ -126,23 +129,7 @@ public class home extends Fragment {
             }
         });
 
-        spinner_Facts_Category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                factsStore.setFileName(spinner_Facts_Category.getSelectedItem().toString());
 
-                ActualFactDisplay.setText(factsStore.getFatcs());
-
-            }
-
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getActivity().getApplicationContext(),"Nothing selected",Toast.LENGTH_SHORT).show();
-
-
-            }
-        });
 
 
         //For Actual Text
@@ -154,6 +141,51 @@ public class home extends Fragment {
             set_like_fact_star(ActualFactDisplay.getText().toString());
             current_back_button_index_position = back_button_buffer.size()-1;
         }
+
+
+        spinner_Facts_Category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                if(SpinnerPreviousPosition!=position){
+
+                    current_back_button_index_position = 0;
+                    SpinnerPreviousPosition = position;
+                }
+
+                if (SpinnerPreviousPosition == position) {
+
+                    if (previousPosition) {
+
+
+
+                        factsStore.setFileName(spinner_Facts_Category.getSelectedItem().toString());
+
+                        ActualFactDisplay.setText(factsStore.getFatcs());
+                        back_button_buffer.add(factsStore.get_index());
+                        set_like_fact_star(ActualFactDisplay.getText().toString());
+                        current_back_button_index_position++;
+
+                    }
+                }
+
+            }
+
+
+
+
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getActivity().getApplicationContext(),"Nothing selected",Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
         ActualFactDisplay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -326,9 +358,5 @@ public class home extends Fragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        back_button_buffer.clear();
-    }
+
 }

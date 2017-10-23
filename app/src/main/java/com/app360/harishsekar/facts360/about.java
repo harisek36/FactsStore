@@ -34,18 +34,20 @@ public class about extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.aboutus_fragment,container,false);
 
-        final String appPackageName = getContext().getPackageName(); // getPackageName() from Context or Activity object
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-        } catch (android.content.ActivityNotFoundException anfe) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-        }
+        final String appPackageName = getContext().getPackageName();
 
 
         rate_us = view.findViewById(R.id.rateus_ID);
         rate_us.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                 // getPackageName() from Context or Activity object
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                } catch (android.content.ActivityNotFoundException anfe) {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                }
 
             }
         });
