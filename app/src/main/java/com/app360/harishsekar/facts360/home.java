@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,8 @@ import com.google.android.gms.ads.MobileAds;
 
 import java.util.ArrayList;
 import java.util.Locale;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by harishsekar on 9/9/17.
@@ -44,6 +47,7 @@ public class home extends Fragment {
 
     private FactsStore factsStore = null;
    public LocalFavouriteDatabaseHelper localFavouriteDatabaseHelper ;
+    private static int[] current_index_Total = new int[2];
 
 
     ConstraintLayout home_constraintLayout;
@@ -52,6 +56,7 @@ public class home extends Fragment {
     Spinner spinner_Facts_Category;
     EditText searchFact_text;
     final String ADMOB_HOME_APP_ID = "ca-app-pub-7359656895588552/3709272501";
+
 
 
 
@@ -121,7 +126,7 @@ public class home extends Fragment {
                 if(keyCode == KeyEvent.KEYCODE_ENTER){
                     if(event.getAction() == KeyEvent.ACTION_UP){
 
-                        ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
+//                        ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
                         return  true;
                     }
                 }
@@ -132,15 +137,15 @@ public class home extends Fragment {
 
 
 
-        //For Actual Text
-        if(back_button_buffer.isEmpty()){
-
-
-            ActualFactDisplay.setText(factsStore.getFatcs());
-            back_button_buffer.add(factsStore.get_index());
-            set_like_fact_star(ActualFactDisplay.getText().toString());
-            current_back_button_index_position = back_button_buffer.size()-1;
-        }
+//        //For Actual Text
+//        if(back_button_buffer.isEmpty()){
+//
+//
+////            ActualFactDisplay.setText(factsStore.getFatcs());
+////            back_button_buffer.add(factsStore.get_index());
+////            set_like_fact_star(ActualFactDisplay.getText().toString());
+////            current_back_button_index_position = back_button_buffer.size()-1;
+//        }
 
 
         spinner_Facts_Category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -148,35 +153,23 @@ public class home extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+                Log.v(TAG,"from home "+spinner_Facts_Category.getSelectedItem().toString()+" "+position);
 
-                if(SpinnerPreviousPosition!=position){
+//                factsStore.setFileName_and_initialFact(spinner_Facts_Category.getSelectedItem().toString(),position);
+                factsStore.setFileName_and_initialFact(spinner_Facts_Category.getSelectedItem().toString(),position);
+                ActualFactDisplay.setText(factsStore.setInitialFact());
 
-                    current_back_button_index_position = 0;
-                    SpinnerPreviousPosition = position;
-                }
+                current_index_Total = factsStore.get_current_index_totalFacts();
 
-                if (SpinnerPreviousPosition == position) {
-
-                    if (previousPosition) {
-
+                Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
+//                        back_button_buffer.add(factsStore.get_index());
+//                        set_like_fact_star(ActualFactDisplay.getText().toString());
+//                        current_back_button_index_position++;
 
 
-                        factsStore.setFileName(spinner_Facts_Category.getSelectedItem().toString());
 
-                        ActualFactDisplay.setText(factsStore.getFatcs());
-                        back_button_buffer.add(factsStore.get_index());
-                        set_like_fact_star(ActualFactDisplay.getText().toString());
-                        current_back_button_index_position++;
-
-                    }
-                }
 
             }
-
-
-
-
-
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -186,28 +179,28 @@ public class home extends Fragment {
             }
         });
 
-        ActualFactDisplay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if(current_back_button_index_position == back_button_buffer.size()-1) {
-
-                    ActualFactDisplay.setText(factsStore.getFatcs());
-
-                    back_button_buffer.add(factsStore.get_index());
-                    set_like_fact_star(ActualFactDisplay.getText().toString());
-                    current_back_button_index_position++;
-
-                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
-                    current_back_button_index_position++;
-
-                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-                    set_like_fact_star(ActualFactDisplay.getText().toString());
-
-                }
-
-            }
-        });
+//        ActualFactDisplay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if(current_back_button_index_position == back_button_buffer.size()-1) {
+//
+//                    ActualFactDisplay.setText(factsStore.getFatcs());
+//
+////                    back_button_buffer.add(factsStore.get_index());
+////                    set_like_fact_star(ActualFactDisplay.getText().toString());
+////                    current_back_button_index_position++;
+//
+//                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
+//                    current_back_button_index_position++;
+//
+//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
+//                    set_like_fact_star(ActualFactDisplay.getText().toString());
+//
+//                }
+//
+//            }
+//        });
 
         //----------------------------------------------------------------------------------
 
@@ -217,21 +210,30 @@ public class home extends Fragment {
             public void onClick(View view) {
 
 
-                if(current_back_button_index_position == back_button_buffer.size()-1) {
 
-                    ActualFactDisplay.setText(factsStore.getFatcs());
+                ActualFactDisplay.setText(factsStore.get_right_Fatcs());
+                current_index_Total = factsStore.get_current_index_totalFacts();
+                Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
 
-                    back_button_buffer.add(factsStore.get_index());
-                    set_like_fact_star(ActualFactDisplay.getText().toString());
-                    current_back_button_index_position++;
 
-                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
-                    current_back_button_index_position++;
 
-                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-                    set_like_fact_star(ActualFactDisplay.getText().toString());
 
-                }
+//                if(current_back_button_index_position == back_button_buffer.size()-1) {
+//
+//                    ActualFactDisplay.setText(factsStore.getFatcs());
+//
+//                    back_button_buffer.add(factsStore.get_index());
+//                    set_like_fact_star(ActualFactDisplay.getText().toString());
+//                    current_back_button_index_position++;
+//
+//                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
+//                    current_back_button_index_position++;
+//
+//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
+//                    set_like_fact_star(ActualFactDisplay.getText().toString());
+
+//
+//                }
 
 
 
@@ -244,12 +246,18 @@ public class home extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(current_back_button_index_position != 0 && current_back_button_index_position < back_button_buffer.size()){
+                ActualFactDisplay.setText(factsStore.get_left_Fatcs());
+                current_index_Total = factsStore.get_current_index_totalFacts();
+                Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
 
-                    current_back_button_index_position--;
-                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-                    set_like_fact_star(ActualFactDisplay.getText().toString());
-                }
+
+
+//                if(current_back_button_index_position != 0 && current_back_button_index_position < back_button_buffer.size()){
+//
+//                    current_back_button_index_position--;
+//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
+//                    set_like_fact_star(ActualFactDisplay.getText().toString());
+//                }
 
             }
         });

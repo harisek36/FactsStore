@@ -10,6 +10,7 @@
         <string-array name="Facts_categories">
                 <item>ALL</item>
                 <item>INTERESTING</item>
+                <item>HUMANBODY</item>
                 <item>NATURE</item>
                 <item>SCIENCE</item>
                 <item>STATISTICS</item>

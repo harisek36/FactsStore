@@ -20,7 +20,6 @@
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:text="TextView"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -104,7 +103,7 @@
         android:layout_height="24dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_res"
         android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
         android:contextClickable="true"
@@ -117,10 +116,10 @@
 
     <ImageButton
         android:id="@+id/searchFact_button_Home_ID"
-        android:layout_width="0dp"
-        android:layout_height="39dp"
+        android:layout_width="32dp"
+        android:layout_height="33dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@android:color/transparent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -128,25 +127,57 @@
 
     <EditText
         android:id="@+id/search_fact_text_ID"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/button_res"
+        android:backgroundTint="@color/colorAccent"
         android:ems="10"
         android:hint="Search Fact with Keywords"
         android:inputType="textPersonName"
         android:shadowColor="@color/colorAccent"
-        android:textAlignment="center"
+        android:layout_marginTop="5dp"
+        ads:layout_constraintTop_toBottomOf="@+id/spinner_ID"
+        ads:layout_constraintRight_toLeftOf="@+id/current_index_ID"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
+        ads:layout_constraintLeft_toLeftOf="parent" />
+
+        android:textAlignment="viewStart"
         android:textColor="@color/colorAccent"
         android:textColorHighlight="@android:color/transparent"
-
-        android:textColorHint="@android:color/white"
+        android:textColorHint="@android:color/black"
         android:textColorLink="@android:color/white"
+        ads:layout_constraintHorizontal_bias="0.189"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_ID" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner_ID"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="0dp"
+        ads:layout_constraintLeft_toLeftOf="parent" />
+
+    <TextView
+        android:id="@+id/current_index_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_res"
+        android:backgroundTint="@color/colorAccent"
+        android:text="0"
+        ads:layout_constraintBaseline_toBaselineOf="@+id/search_fact_text_ID"
+        ads:layout_constraintRight_toLeftOf="@+id/Total_facts_ID"
+        android:layout_marginRight="8dp" />
+
+    <TextView
+        android:id="@+id/Total_facts_ID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/button_res"
+        android:backgroundTint="@color/colorAccent"
+        android:text="1000"
+        ads:layout_constraintBaseline_toBaselineOf="@+id/current_index_ID"
+        ads:layout_constraintRight_toRightOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>
