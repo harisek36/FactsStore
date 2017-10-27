@@ -328,11 +328,6 @@ public class liked extends Fragment {
         });
 
 
-
-
-
-
-
         return view;
     }
 

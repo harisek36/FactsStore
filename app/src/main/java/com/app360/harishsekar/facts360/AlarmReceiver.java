@@ -38,7 +38,7 @@ public class  AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle("Daily Facts: 360")
 
                 .setAutoCancel(true)
-                .setContentText(factsStore.get_Fact_at_position(index_fact[0]))
+                .setContentText(factsStore.get_Fact_at_position(-1))
                 .setSmallIcon(R.mipmap.bookshelf_64);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
