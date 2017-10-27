@@ -101,8 +101,8 @@
         android:id="@+id/spinner_ID"
         android:layout_width="0dp"
         android:layout_height="24dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/button_res"
         android:backgroundTint="@color/common_google_signin_btn_text_dark_default"
@@ -116,8 +116,8 @@
 
     <ImageButton
         android:id="@+id/searchFact_button_Home_ID"
-        android:layout_width="32dp"
-        android:layout_height="33dp"
+        android:layout_width="31dp"
+        android:layout_height="29dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="4dp"
         android:background="@android:color/transparent"
@@ -127,20 +127,22 @@
 
     <EditText
         android:id="@+id/search_fact_text_ID"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/button_res"
         android:backgroundTint="@color/colorAccent"
         android:ems="10"
         android:hint="Search Fact with Keywords"
         android:inputType="textPersonName"
         android:shadowColor="@color/colorAccent"
-        android:layout_marginTop="5dp"
-        ads:layout_constraintTop_toBottomOf="@+id/spinner_ID"
-        ads:layout_constraintRight_toLeftOf="@+id/current_index_ID"
-        android:layout_marginRight="8dp"
-        android:layout_marginLeft="8dp"
-        ads:layout_constraintLeft_toLeftOf="parent" />
+        android:textSize="12sp"
+        ads:layout_constraintHorizontal_bias="0.0"
+        ads:layout_constraintLeft_toRightOf="@+id/get_Fact_num_ID"
+        ads:layout_constraintRight_toLeftOf="@+id/current_like_index_ID"
+        ads:layout_constraintTop_toBottomOf="@+id/spinner_ID" />
 
         android:textAlignment="viewStart"
         android:textColor="@color/colorAccent"
@@ -158,26 +160,57 @@
         ads:layout_constraintLeft_toLeftOf="parent" />
 
     <TextView
-        android:id="@+id/current_index_ID"
-        android:layout_width="wrap_content"
+        android:id="@+id/current_like_index_ID"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/button_res"
+        android:layout_marginRight="0dp"
+        android:background="@android:color/transparent"
         android:backgroundTint="@color/colorAccent"
-        android:text="0"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
         ads:layout_constraintBaseline_toBaselineOf="@+id/search_fact_text_ID"
-        ads:layout_constraintRight_toLeftOf="@+id/Total_facts_ID"
-        android:layout_marginRight="8dp" />
+        ads:layout_constraintRight_toLeftOf="@+id/textView2" />
 
     <TextView
         android:id="@+id/Total_facts_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/button_res"
+        android:layout_marginRight="8dp"
+        android:background="@android:color/transparent"
         android:backgroundTint="@color/colorAccent"
-        android:text="1000"
-        ads:layout_constraintBaseline_toBaselineOf="@+id/current_index_ID"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        ads:layout_constraintBaseline_toBaselineOf="@+id/current_like_index_ID"
         ads:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="0dp"
+        android:background="@android:color/transparent"
+        android:text="/"
+        android:textColor="@android:color/white"
+        ads:layout_constraintBaseline_toBaselineOf="@+id/Total_facts_ID"
+        ads:layout_constraintRight_toLeftOf="@+id/Total_facts_ID" />
+
+    <EditText
+        android:id="@+id/get_Fact_num_ID"
+        android:layout_width="50dp"
+        android:layout_height="20dp"
+        android:layout_marginLeft="8dp"
+        android:background="@drawable/button_res"
+        android:backgroundTint="@android:color/background_light"
+        android:ems="10"
+        android:hint="Fact #"
+        android:inputType="number"
+        android:textSize="12sp"
+        ads:layout_constraintBaseline_toBaselineOf="@+id/search_fact_text_ID"
+        ads:layout_constraintLeft_toLeftOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

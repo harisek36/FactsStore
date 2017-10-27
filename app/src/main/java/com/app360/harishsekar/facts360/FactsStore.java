@@ -35,19 +35,6 @@ public class FactsStore extends ContextWrapper {
         super(activity_context);
         setFileName_and_initialFact("ALL",0);
 
-//        try{
-//
-//            file = getResources().getAssets().open(fileName+".txt");
-//
-//            reader = new BufferedReader(new InputStreamReader(file));
-//            String line = reader.readLine();
-//            while(line != null){
-//                TrueFacts.add(line);
-//                line = reader.readLine();
-//            }
-//        } catch(IOException ioe){
-//            ioe.printStackTrace();
-//        }
 
     }
 
@@ -91,15 +78,6 @@ public class FactsStore extends ContextWrapper {
      public String setInitialFact(){
         return TrueFacts.get(all_Facts_index_position[category_position]);
     }
-
-
-//    public int getRandomNumber(){
-//
-//        Random random = new Random();
-//        int randomIndex = random.nextInt(TrueFacts.size());
-//        return randomIndex;
-//
-//    }
 
 
     public String get_right_Fatcs() {
@@ -157,36 +135,16 @@ public class FactsStore extends ContextWrapper {
 
         }
     }
-//        if(all_Facts_index_position[category_position] == 0){
-//
-//
-//
-//            all_Facts_index_position[category_position] = TrueFacts.size()-1;
-//            return TrueFacts.get(all_Facts_index_position[category_position]);
-//
-//        } else{
-//
-//
-//            all_Facts_index_position[category_position]--;
-//            return TrueFacts.get(all_Facts_index_position[category_position]);
-//
-//
-//        }
 
 
-
-
-
-
-
-
-//    public int get_index(){
-//        return current_random_index;
-//    }
 
 
     public String get_Fact_at_position(int position){
-        return TrueFacts.get(position);
+
+        if(position >=0 && position<TrueFacts.size()) {
+            all_Facts_index_position[category_position] = position;
+        }
+        return TrueFacts.get(all_Facts_index_position[category_position]);
     }
 
 
@@ -194,6 +152,7 @@ public class FactsStore extends ContextWrapper {
 
         for(int index=0;index<TrueFacts.size();index++){
             if(TrueFacts.get(index).contains(x)){
+                all_Facts_index_position[category_position] = index;
                 return TrueFacts.get(index);
             }
         }

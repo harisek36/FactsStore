@@ -1,12 +1,10 @@
 package com.app360.harishsekar.facts360;
 
 import android.content.Intent;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -54,13 +52,12 @@ public class home extends Fragment {
     public static TextView ActualFactDisplay;
     ImageButton share_button,left_button,voice_button,right_button,like_unlike_button,search_home_fact_Button;
     Spinner spinner_Facts_Category;
-    EditText searchFact_text;
+    EditText searchFact_text,fact_num;
+    TextView current_index, Total_index;
     final String ADMOB_HOME_APP_ID = "ca-app-pub-7359656895588552/3709272501";
 
 
 
-
-    static ArrayList<String> favourite_facts_list_forLiked= new ArrayList<>();
 
     AdView adView ;
     AdRequest adRequest ;
@@ -81,7 +78,6 @@ public class home extends Fragment {
 
         localFavouriteDatabaseHelper = new LocalFavouriteDatabaseHelper(getActivity().getApplicationContext(),null,null,1);
 
-        favourite_facts_list_forLiked = localFavouriteDatabaseHelper.databaseToString();
 
 
         ActualFactDisplay =  view.findViewById(R.id.home_actualfact_ID);
@@ -93,24 +89,38 @@ public class home extends Fragment {
         spinner_Facts_Category = view.findViewById(R.id.spinner_ID);
         search_home_fact_Button = view.findViewById(R.id.searchFact_button_Home_ID);
         searchFact_text = view.findViewById(R.id.search_fact_text_ID);
+        fact_num = view.findViewById(R.id.get_Fact_num_ID);
+
+        current_index = view.findViewById(R.id.current_like_index_ID);
+        Total_index = view.findViewById(R.id.Total_facts_ID);
 
 
 
+        search_home_fact_Button.setImageResource(R.drawable.ic_search_white_24dp);
 
 
         searchFact_text.setTag("INVISIBLE");
         searchFact_text.setVisibility(View.INVISIBLE);
+        fact_num.setTag("INVISIBLE");
+        fact_num.setVisibility(View.INVISIBLE);
         search_home_fact_Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(searchFact_text.getTag() == "INVISIBLE") {
                     searchFact_text.setVisibility(View.VISIBLE);
                     searchFact_text.setTag("VISIBLE");
+                    fact_num.setTag("VISIBLE");
+                    fact_num.setVisibility(View.VISIBLE);
+                    search_home_fact_Button.setImageResource(R.drawable.ic_youtube_searched_for_white_24dp);
+
 
                 }else if(searchFact_text.getTag() == "VISIBLE")
                 {
                     searchFact_text.setVisibility(View.INVISIBLE);
                     searchFact_text.setTag("INVISIBLE");
+                    fact_num.setTag("INVISIBLE");
+                    fact_num.setVisibility(View.INVISIBLE);
+                    search_home_fact_Button.setImageResource(R.drawable.ic_search_white_24dp);
 
                 }
             }
@@ -118,6 +128,22 @@ public class home extends Fragment {
 
 
 
+        fact_num.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    if(event.getAction() == KeyEvent.ACTION_UP){
+
+                        ActualFactDisplay.setText(factsStore.get_Fact_at_position(Integer.parseInt(fact_num.getText().toString())-1));
+                        current_index_Total = factsStore.get_current_index_totalFacts();
+                        update_current_total_index_number();
+                        return  true;
+                    }
+                }
+                return false;
+            }
+        });
 
         searchFact_text.setOnKeyListener(new View.OnKeyListener() {
             @Override
@@ -126,7 +152,10 @@ public class home extends Fragment {
                 if(keyCode == KeyEvent.KEYCODE_ENTER){
                     if(event.getAction() == KeyEvent.ACTION_UP){
 
-//                        ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
+                        ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
+                        current_index_Total = factsStore.get_current_index_totalFacts();
+                        update_current_total_index_number();
+
                         return  true;
                     }
                 }
@@ -136,17 +165,7 @@ public class home extends Fragment {
 
 
 
-
-//        //For Actual Text
-//        if(back_button_buffer.isEmpty()){
-//
-//
-////            ActualFactDisplay.setText(factsStore.getFatcs());
-////            back_button_buffer.add(factsStore.get_index());
-////            set_like_fact_star(ActualFactDisplay.getText().toString());
-////            current_back_button_index_position = back_button_buffer.size()-1;
-//        }
-
+        update_current_total_index_number();
 
         spinner_Facts_Category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -162,14 +181,15 @@ public class home extends Fragment {
                 current_index_Total = factsStore.get_current_index_totalFacts();
 
                 Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
-//                        back_button_buffer.add(factsStore.get_index());
-//                        set_like_fact_star(ActualFactDisplay.getText().toString());
-//                        current_back_button_index_position++;
+                update_current_total_index_number();
+                set_like_fact_star(ActualFactDisplay.getText().toString());
 
 
 
 
-            }
+
+
+            };
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -179,28 +199,19 @@ public class home extends Fragment {
             }
         });
 
-//        ActualFactDisplay.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                if(current_back_button_index_position == back_button_buffer.size()-1) {
-//
-//                    ActualFactDisplay.setText(factsStore.getFatcs());
-//
-////                    back_button_buffer.add(factsStore.get_index());
-////                    set_like_fact_star(ActualFactDisplay.getText().toString());
-////                    current_back_button_index_position++;
-//
-//                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
-//                    current_back_button_index_position++;
-//
-//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-//                    set_like_fact_star(ActualFactDisplay.getText().toString());
-//
-//                }
-//
-//            }
-//        });
+        ActualFactDisplay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                ActualFactDisplay.setText(factsStore.get_right_Fatcs());
+                current_index_Total = factsStore.get_current_index_totalFacts();
+                Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
+                update_current_total_index_number();
+                set_like_fact_star(ActualFactDisplay.getText().toString());
+
+
+            }
+        });
 
         //----------------------------------------------------------------------------------
 
@@ -214,26 +225,10 @@ public class home extends Fragment {
                 ActualFactDisplay.setText(factsStore.get_right_Fatcs());
                 current_index_Total = factsStore.get_current_index_totalFacts();
                 Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
+                update_current_total_index_number();
+                set_like_fact_star(ActualFactDisplay.getText().toString());
 
 
-
-
-//                if(current_back_button_index_position == back_button_buffer.size()-1) {
-//
-//                    ActualFactDisplay.setText(factsStore.getFatcs());
-//
-//                    back_button_buffer.add(factsStore.get_index());
-//                    set_like_fact_star(ActualFactDisplay.getText().toString());
-//                    current_back_button_index_position++;
-//
-//                }else if(current_back_button_index_position <= back_button_buffer.size()-1 && !back_button_buffer.isEmpty()){
-//                    current_back_button_index_position++;
-//
-//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-//                    set_like_fact_star(ActualFactDisplay.getText().toString());
-
-//
-//                }
 
 
 
@@ -249,15 +244,9 @@ public class home extends Fragment {
                 ActualFactDisplay.setText(factsStore.get_left_Fatcs());
                 current_index_Total = factsStore.get_current_index_totalFacts();
                 Log.v(TAG," Cuurent index : " +current_index_Total[0]+ "/"+current_index_Total[1]);
+                update_current_total_index_number();
+                set_like_fact_star(ActualFactDisplay.getText().toString());
 
-
-
-//                if(current_back_button_index_position != 0 && current_back_button_index_position < back_button_buffer.size()){
-//
-//                    current_back_button_index_position--;
-//                    ActualFactDisplay.setText(factsStore.get_Fact_at_position(back_button_buffer.get(current_back_button_index_position)));
-//                    set_like_fact_star(ActualFactDisplay.getText().toString());
-//                }
 
             }
         });
@@ -325,7 +314,6 @@ public class home extends Fragment {
                     }
                 }
 
-                favourite_facts_list_forLiked = localFavouriteDatabaseHelper.databaseToString();
 
             }
         });
@@ -336,6 +324,21 @@ public class home extends Fragment {
         return view;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if(isVisibleToUser) {
+//            set_like_fact_star(ActualFactDisplay.getText().toString());
+        }
+    }
+
+    void update_current_total_index_number(){
+        int current = current_index_Total[0]+1;
+        int total = current_index_Total[1];
+
+        current_index.setText(""+current);
+        Total_index.setText(""+total);
+    }
 
 
     void set_like_fact_star(String S){

@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +29,10 @@ public class liked extends Fragment {
 
 
 //  static ArrayList<String> favourite_facts_list = new ArrayList<>();
-    private static int index = 0;
+    private static int index_left = 0;
 
-    ArrayList<String> favourite_facts_list = new ArrayList<>();
+
+     static ArrayList<String> favourite_facts_list = new ArrayList<>();
     private static LocalFavouriteDatabaseHelper localFavouriteDatabaseHelper_1 ;
 
     TextView fav_fact_display,Actual_Facts_from_liked_to_home; ;
@@ -38,6 +40,11 @@ public class liked extends Fragment {
 //    AdView FavAvtivity_adView;
     private TextToSpeech textToSpeech_object;
     private int textTOspeech_result;
+
+    ImageButton search_option_like;
+    TextView current_index_like, total_index_like;
+
+    EditText get_facts_number_like, search_fact_like;
 
     final String ADMOB_LIKE_APP_ID = "ca-app-pub-7359656895588552/4447639109";
 
@@ -48,7 +55,7 @@ public class liked extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
 
 
@@ -76,6 +83,47 @@ public class liked extends Fragment {
         voice_button = (ImageButton) view.findViewById(R.id.fav_voice_ID);
         right_button = (ImageButton) view.findViewById(R.id.fav_rightarrow_ID);
         Delete_Fav_fact_from_local_DB__button = (ImageButton) view.findViewById(R.id.fav_delete_ID);
+
+        search_option_like = view.findViewById(R.id.search_display_like_option_ID);
+        current_index_like = view.findViewById(R.id.current_like_text_ID);
+        total_index_like = view.findViewById(R.id.total_like_facts_ID);
+
+        get_facts_number_like =  view.findViewById(R.id.get_like_facts_num_ID);
+        search_fact_like = view.findViewById(R.id.search_like_fact_new_ID);
+
+
+
+
+        update_index();
+        search_fact_like.setTag("INVISIBLE");
+        search_fact_like.setVisibility(View.INVISIBLE);
+        get_facts_number_like.setTag("INVISIBLE");
+        get_facts_number_like.setVisibility(View.INVISIBLE);
+        search_option_like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(search_fact_like.getTag() == "INVISIBLE") {
+
+                    search_fact_like.setVisibility(View.VISIBLE);
+                    search_fact_like.setTag("VISIBLE");
+                    get_facts_number_like.setVisibility(View.VISIBLE);
+                    get_facts_number_like.setTag("VISIBLE");
+                    search_option_like.setImageResource(R.drawable.ic_youtube_searched_for_white_24dp);
+
+
+                }else if(search_fact_like.getTag() == "VISIBLE")
+                {
+                    search_fact_like.setVisibility(View.INVISIBLE);
+                    search_fact_like.setTag("INVISIBLE");
+                    get_facts_number_like.setVisibility(View.INVISIBLE);
+                    get_facts_number_like.setTag("INVISIBLE");
+                    search_option_like.setImageResource(R.drawable.ic_search_white_24dp);
+
+
+                }
+            }
+        });
 
         //----------------------------------------------------------------------------------
 
@@ -132,16 +180,14 @@ public class liked extends Fragment {
 
         if(!favourite_facts_list.isEmpty() && favourite_facts_list.size()!=0) {
 
-            fav_fact_display.setText(favourite_facts_list.get(0));
-            if(index == (favourite_facts_list.size())-1 ) {
-                index=0;
-            }
-            else {
-                index++;
-            }
+            fav_fact_display.setText(favourite_facts_list.get(index_left));
+
         }
         else{
             fav_fact_display.setText("No favourite Facts yet !!");
+            current_index_like.setText(""+0);
+            total_index_like.setText(""+0);
+
         }
 
         //----------------------------------------------------------------------------------
@@ -149,16 +195,25 @@ public class liked extends Fragment {
         left_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!favourite_facts_list.isEmpty()) {
-                    if (index > 0) {
-                        index--;
+
+                if(!favourite_facts_list.isEmpty()){
+
+                    if(index_left>0) {
+                        index_left--;
+                        fav_fact_display.setText(favourite_facts_list.get(index_left));
+
                     }
-                    fav_fact_display.setText(favourite_facts_list.get(index));
 
-                } else {
+                    update_index();
 
+                }else {
                     fav_fact_display.setText("No favourite Facts yet !!");
+                    current_index_like.setText(""+0);
+                    total_index_like.setText(""+0);
+
                 }
+
+
             }
         });
 
@@ -167,16 +222,30 @@ public class liked extends Fragment {
         right_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!favourite_facts_list.isEmpty()) {
-                    if (index != favourite_facts_list.size() - 1) {
-                        index++;
-                    }
-                    fav_fact_display.setText(favourite_facts_list.get(index));
 
-                } else {
+                if(!favourite_facts_list.isEmpty()){
+
+                    if(index_left != (favourite_facts_list.size()-1)){
+                        index_left++;
+                        fav_fact_display.setText(favourite_facts_list.get(index_left));
+
+                    }
+//                    else {
+//                        index = 0;
+//                        fav_fact_display.setText(favourite_facts_list.get(index));
+
+//                    }
+                    update_index();
+
+
+                }else {
                     fav_fact_display.setText("No favourite Facts yet !!");
+                    current_index_like.setText(""+0);
+                    total_index_like.setText(""+0);
 
                 }
+
+
             }
         });
 
@@ -189,6 +258,8 @@ public class liked extends Fragment {
                 String GET_FAV_FACT_TO_DELETE = fav_fact_display.getText().toString();
                 if(GET_FAV_FACT_TO_DELETE == "No favourite Facts yet !!" && localFavouriteDatabaseHelper_1.databasehasFacts()) {
                     Toast.makeText(getActivity().getApplicationContext(),"No favourite Facts yet !!",Toast.LENGTH_LONG).show();
+                    current_index_like.setText(""+0);
+                    total_index_like.setText(favourite_facts_list.size());
                 }
                 else{
                     if(localFavouriteDatabaseHelper_1.delete_from_Table(GET_FAV_FACT_TO_DELETE)){
@@ -197,15 +268,57 @@ public class liked extends Fragment {
 
 
                         if(!favourite_facts_list.isEmpty() && favourite_facts_list.size()!=0) {
-                            index=0;
-                            fav_fact_display.setText(favourite_facts_list.get(index));
+                            index_left=0;
+                            fav_fact_display.setText(favourite_facts_list.get(index_left));
+                            update_index();
+
                         }
                         else{
                             fav_fact_display.setText("No favourite Facts yet !!");
+                            current_index_like.setText(""+0);
+                            total_index_like.setText(""+0);
+
                         }
                     }
+
+
                 }
 
+            }
+        });
+
+        search_fact_like.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    if(event.getAction() == KeyEvent.ACTION_UP){
+
+                        fav_fact_display.setText(search_string(search_fact_like.getText().toString()));
+
+
+                        return  true;
+                    }
+                }
+                return false;
+            }
+        });
+
+
+        get_facts_number_like.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    if(event.getAction() == KeyEvent.ACTION_UP){
+
+                        fav_fact_display.setText(getFactat(Integer.parseInt(get_facts_number_like.getText().toString())-1));
+
+
+                        return  true;
+                    }
+                }
+                return false;
             }
         });
 
@@ -214,7 +327,54 @@ public class liked extends Fragment {
 
 
 
+
         return view;
+    }
+
+
+//    void update_index__current_total(){
+//
+//
+//        total_index_like.setText(favourite_facts_list.size());
+//
+//    }
+
+
+    void update_index(){
+        int num = index_left +1;
+        int len = favourite_facts_list.size();
+
+        current_index_like.setText(""+num);
+        total_index_like.setText(""+len);
+
+    }
+
+    private String getFactat(int x){
+        if(x>=0 && x<favourite_facts_list.size()){
+            current_index_like.setText(""+(x+1));
+            return favourite_facts_list.get(x);
+        }
+        return fav_fact_display.getText().toString();
+    }
+
+
+
+
+    public String search_string(String x){
+
+        for(int index=0;index<favourite_facts_list.size();index++){
+            if(favourite_facts_list.get(index).contains(x)){
+                index_left =index;
+                update_index();
+
+                return favourite_facts_list.get(index);
+            }
+        }
+
+        Toast.makeText(getActivity().getApplicationContext(),"Requested Fact not Found",Toast.LENGTH_LONG).show();
+
+
+        return fav_fact_display.getText().toString() ;
     }
 
 
@@ -230,18 +390,21 @@ public class liked extends Fragment {
             if(!favourite_facts_list.isEmpty() && favourite_facts_list.size()!=0) {
 
                 fav_fact_display.setText(favourite_facts_list.get(0));
-                if(index == (favourite_facts_list.size())-1 ) {
-                    index=0;
+                if(index_left == (favourite_facts_list.size())-1 ) {
+                    index_left=0;
                 }
                 else {
-                    index++;
+                    index_left++;
                 }
             }
             else{
                 fav_fact_display.setText("No favourite Facts yet !!");
 
+
+
             }
         }
+
 
 
     }
