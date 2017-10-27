@@ -1,6 +1,7 @@
 package com.app360.harishsekar.facts360;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by harishsekar on 9/9/17.
@@ -62,11 +64,25 @@ public class home extends Fragment {
     AdView adView ;
     AdRequest adRequest ;
 
+    public static final String MY_PREFS_NAME = "RetriveFile";
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.homefacts_fragment,container,false);
+
+
+        SharedPreferences sharedPref = getContext().getSharedPreferences(MY_PREFS_NAME, MODE_PRIVATE);
+//        editor.putString("current_category",factsStore.getFileName());
+//        editor.putInt("current_index", Integer.parseInt(current_index.getText().toString()));
+//        editor.putInt("current_Category_position", factsStore.getCategory_position());
+
+
+
+
+
+
 
         MobileAds.initialize(getActivity().getApplicationContext(),ADMOB_HOME_APP_ID);
         adView = (AdView) view.findViewById(R.id.home_AD);
@@ -132,13 +148,22 @@ public class home extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if(keyCode == KeyEvent.KEYCODE_ENTER){
-                    if(event.getAction() == KeyEvent.ACTION_UP){
 
-                        ActualFactDisplay.setText(factsStore.get_Fact_at_position(Integer.parseInt(fact_num.getText().toString())-1));
-                        current_index_Total = factsStore.get_current_index_totalFacts();
-                        update_current_total_index_number();
-                        return  true;
+                if(keyCode == KeyEvent.KEYCODE_ENTER){
+                    if(fact_num.getText().toString()!="") {
+                        if (event.getAction() == KeyEvent.ACTION_UP) {
+                            try {
+
+
+                                ActualFactDisplay.setText(factsStore.get_Fact_at_position(Integer.parseInt(fact_num.getText().toString()) - 1));
+                                current_index_Total = factsStore.get_current_index_totalFacts();
+                                update_current_total_index_number();
+                                return true;
+
+                            } catch (NumberFormatException e) {
+
+                            }
+                        }
                     }
                 }
                 return false;
@@ -152,11 +177,12 @@ public class home extends Fragment {
                 if(keyCode == KeyEvent.KEYCODE_ENTER){
                     if(event.getAction() == KeyEvent.ACTION_UP){
 
-                        ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
-                        current_index_Total = factsStore.get_current_index_totalFacts();
-                        update_current_total_index_number();
+                            ActualFactDisplay.setText(factsStore.search_string(searchFact_text.getText().toString()));
+                            current_index_Total = factsStore.get_current_index_totalFacts();
+                            update_current_total_index_number();
 
-                        return  true;
+                            return true;
+
                     }
                 }
                 return false;
@@ -323,6 +349,9 @@ public class home extends Fragment {
 
         return view;
     }
+
+
+
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {

@@ -20,6 +20,7 @@ public class  AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         factsStore = new FactsStore(context);
+        int[] index_fact = factsStore.get_current_index_totalFacts();
         Intent mainActivirt_intent = new Intent(context ,MainActivity.class);
 
 //        TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
@@ -35,8 +36,9 @@ public class  AlarmReceiver extends BroadcastReceiver {
         notificationBuilder.setContentIntent(pendingIntent)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setContentTitle("Daily Facts: 360")
+
                 .setAutoCancel(true)
-//                .setContentText(factsStore.getFatcs())
+                .setContentText(factsStore.get_Fact_at_position(index_fact[0]))
                 .setSmallIcon(R.mipmap.bookshelf_64);
 
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

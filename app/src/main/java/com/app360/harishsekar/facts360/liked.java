@@ -309,15 +309,20 @@ public class liked extends Fragment {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
 
-                if(keyCode == KeyEvent.KEYCODE_ENTER){
-                    if(event.getAction() == KeyEvent.ACTION_UP){
+                    if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                        if (event.getAction() == KeyEvent.ACTION_UP) {
 
-                        fav_fact_display.setText(getFactat(Integer.parseInt(get_facts_number_like.getText().toString())-1));
+                            try {
+                                fav_fact_display.setText(getFactat(Integer.parseInt(get_facts_number_like.getText().toString()) - 1));
 
 
-                        return  true;
+                                return true;
+                            }catch (NumberFormatException e) {
+
+                            }
+                        }
                     }
-                }
+
                 return false;
             }
         });

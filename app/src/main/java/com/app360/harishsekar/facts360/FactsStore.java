@@ -21,22 +21,55 @@ public class FactsStore extends ContextWrapper {
 
     BufferedReader reader;
     private static ArrayList<String> TrueFacts  = new ArrayList<String>();
-    private static int all_Facts_index_position[] = {0,0,0,0,0,0,0,0};
-    private static int category_position ;
 
+
+
+
+    private static int all_Facts_index_position[] = {0,0,0,0,0,0,0,0};
+
+
+
+
+    private    int category_position = 0 ;
+    private   String fileName = "ALL";
 
 
     public InputStream file;
 
 
-    private String fileName = "ALL";
+
+
+    public  int getAll_Facts_index_position(int x) {
+        return all_Facts_index_position[x];
+    }
+    public void setAll_Facts_index_position( int category_index,int fact_index_position) {
+        all_Facts_index_position[category_index] = fact_index_position;
+    }
+
+    public  void setCategory_position(int category_position) {
+        this.category_position = category_position;
+    }
+
+    public  void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public  int getCategory_position() {
+        return category_position;
+    }
+
+    public  String getFileName() {
+        return fileName;
+    }
 
     public FactsStore(Context activity_context) {
         super(activity_context);
-        setFileName_and_initialFact("ALL",0);
+//        setFileName_and_initialFact("ALL",0);
 
 
     }
+
+
 
     public void setFileName_and_initialFact(String file_Name, int category_position) {
 
